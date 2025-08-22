@@ -1,0 +1,53 @@
+﻿@model EntityLayer.Concrete.Client
+@{
+    ViewData["Title"] = "EditClient";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit Client</h1>
+
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    @using (Html.BeginForm("EditClient", "Client", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.ClientId) <!-- Client ID'yi gizli bir input olarak gönderiyoruz -->
+
+        <!-- Name -->
+        <div class="mb-4">
+            <label for="Name" class="block text-gray-700 font-bold mb-2">Client Name</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- Surname -->
+        <div class="mb-4">
+            <label for="Surname" class="block text-gray-700 font-bold mb-2">Client Surname</label>
+            @Html.TextBoxFor(x => x.Surname, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- TelNo -->
+        <div class="mb-4">
+            <label for="TelNo" class="block text-gray-700 font-bold mb-2">Phone Number</label>
+            @Html.TextBoxFor(x => x.TelNo, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- TcNo -->
+        <div class="mb-4">
+            <label for="TcNo" class="block text-gray-700 font-bold mb-2">TC No</label>
+            @Html.TextBoxFor(x => x.TcNo, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- Rental Count -->
+        <div class="mb-4">
+            <label for="RentalCount" class="block text-gray-700 font-bold mb-2">Rental Count</label>
+            @Html.TextBoxFor(x => x.RentalCount, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "number" })
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Save Changes
+            </button>
+        </div>
+    }
+</div>
+
+

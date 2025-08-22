@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+@RenderSection("Scripts", required: false)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiko DVD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="DVD Rental">
+                    <span class="ml-2 text-white font-bold text-lg">Fiko DVD</span>
+                </div>
+
+                <!-- Navbar Links -->
+                <div class="hidden sm:flex space-x-4">
+                    <!-- Home Link -->
+                    <a href="/Default/Index" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+
+                    <!-- DVD Link -->
+                    <a href="/Default/DVDRent" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">DVD</a>
+
+                    <!-- Databases Dropdown -->
+                    <div id="dropdown-container" class="relative">
+                        <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onclick="toggleDropdown()">
+                            Databases
+                        </button>
+
+                        <!-- Dropdown Content -->
+                        <div id="dropdown-menu"
+                             class="hidden absolute left-0 bg-gray-800 text-gray-300 mt-2 rounded-md shadow-lg w-36 z-10">
+                            <a href="/Admin/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Admins</a>
+                            <a href="/Actor/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Actors</a>
+                            <a href="/Category/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Categories</a>
+                            <a href="/Client/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Clients</a>
+                            <a href="/Director/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Directors</a>
+                            <a href="/Dvd/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Dvds</a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Link -->
+                    <div id="dropdown-containers" class="relative">
+                        <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onclick="toggleDropdowns()">
+                            Analysis
+                        </button>
+
+                        <!-- Dropdown Content -->
+                        <div id="dropdown-menus"
+                             class="hidden absolute left-0 bg-gray-800 text-gray-300 mt-2 rounded-md shadow-lg w-36 z-10">
+                            <a href="/Analysis/Index" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Dvd Analysis</a>
+                            <a href="/Analysis/RentalAnalysis" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Rental Analaysis</a>
+                            <a href="/Analysis/RentalStatus" class="block px-4 py-2 hover:bg-gray-700 hover:text-white text-sm">Rental Status</a>
+                        </div>
+                    </div>
+                    <a href="/DvdRental/Index" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">DVD Rental</a>
+                    <!-- Logout Button -->
+                    <form method="post" action="/Login/Logout" class="inline-block">
+                        <button type="submit" class="text-gray-300 hover:bg-red-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-red-500">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            if (dropdownMenu.classList.contains('hidden')) {
+                dropdownMenu.classList.remove('hidden');
+            } else {
+                dropdownMenu.classList.add('hidden');
+            }
+        }
+        function toggleDropdowns() {
+            const dropdownMenu = document.getElementById('dropdown-menus');
+            if (dropdownMenu.classList.contains('hidden')) {
+                dropdownMenu.classList.remove('hidden');
+            } else {
+                dropdownMenu.classList.add('hidden');
+            }
+        }
+    </script>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 w-full border-t border-gray-700 text-center py-4">
+        <p class="text-sm">&copy; 2025 DVD Rental. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿@{
+    ViewData["Title"] = "Add DVD Rental";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Add New DVD Rental</h1>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="bg-red-100 text-red-700 border border-red-400 p-4 rounded mb-4">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    <form method="post">
+        <!-- DVD Bilgileri -->
+        <h2 class="text-lg font-bold mb-4 text-gray-700">DVD Information</h2>
+
+        <!-- DVD ID -->
+        <div class="mb-4">
+            <label for="DvdId" class="block text-gray-700 font-bold mb-2">DVD ID</label>
+            <input type="text" name="DvdId" id="DvdId" value="@ViewBag.DvdId" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly />
+        </div>
+
+        <!-- DVD Title -->
+        <div class="mb-4">
+            <label for="Title" class="block text-gray-700 font-bold mb-2">Title</label>
+            <input type="text" value="@ViewBag.Title" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+            <label for="Description" class="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly>@ViewBag.Description</textarea>
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-4">
+            <label for="Stock" class="block text-gray-700 font-bold mb-2">Available Stock</label>
+            <input type="text" value="@ViewBag.Stock" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly />
+        </div>
+
+        <!-- Müşteri Bilgileri -->
+        <h2 class="text-lg font-bold mb-4 text-gray-700">Customer Information</h2>
+        <div class="mb-4">
+            <label for="TcNo" class="block text-gray-700 font-bold mb-2">TC Kimlik No</label>
+            <input type="text" name="TcNo" id="TcNo" maxlength="11" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        <div class="mb-4">
+            <label for="Name" class="block text-gray-700 font-bold mb-2">Name</label>
+            <input type="text" name="Name" id="Name" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        <div class="mb-4">
+            <label for="Surname" class="block text-gray-700 font-bold mb-2">Surname</label>
+            <input type="text" name="Surname" id="Surname" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        <div class="mb-4">
+            <label for="TelNo" class="block text-gray-700 font-bold mb-2">Phone</label>
+            <input type="text" name="TelNo" id="TelNo" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        
+
+        <!-- Tarihler -->
+        <h2 class="text-lg font-bold mb-4 text-gray-700">Rental Information</h2>
+        <div class="mb-4">
+            <label for="RentDate" class="block text-gray-700 font-bold mb-2">Rent Date</label>
+            <input type="date" name="RentDate" id="RentDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        <div class="mb-4">
+            <label for="ExpectedReturnDate" class="block text-gray-700 font-bold mb-2">Expected Return Date</label>
+            <input type="date" name="ExpectedReturnDate" id="ExpectedReturnDate" class="w-full px-3 py-2 border rounded-lg" required />
+        </div>
+        <div class="mb-4">
+            <label for="RentalFee" class="block text-gray-700 font-bold mb-2">Rental Fee</label>
+            <input type="text" id="RentalFee" value="@ViewBag.RentalFee" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly />
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+            Confirm Rental
+        </button>
+    </form>
+</div>
+<script>
+    const rentDateInput = document.getElementById('RentDate');
+    const expectedReturnDateInput = document.getElementById('ExpectedReturnDate');
+    const rentalFeeInput = document.getElementById('RentalFee');
+
+    function calculateRentalFee() {
+        const rentDate = new Date(rentDateInput.value);
+        const expectedReturnDate = new Date(expectedReturnDateInput.value);
+
+        if (expectedReturnDate > rentDate) {
+            const days = Math.ceil((expectedReturnDate - rentDate) / (1000 * 60 * 60 * 24));
+            const fee = days * 25;
+            rentalFeeInput.value = fee + ".00 ₺";
+        } else {
+            rentalFeeInput.value = '';
+        }
+    }
+
+    rentDateInput.addEventListener('change', calculateRentalFee);
+    expectedReturnDateInput.addEventListener('change', calculateRentalFee);
+</script>
+
+<script>
+    // Bugünün tarihini al
+    const today = new Date().toISOString().split('T')[0];
+
+    // RentDate için minimum değeri bugünün tarihi yap
+    const rentDateInput = document.getElementById('RentDate');
+    rentDateInput.setAttribute('min', today);
+
+    // ExpectedReturnDate için minimum değeri RentDate'e eşitle
+    const expectedReturnDateInput = document.getElementById('ExpectedReturnDate');
+    rentDateInput.addEventListener('change', function () {
+        const rentDate = this.value;
+        expectedReturnDateInput.setAttribute('min', rentDate);
+
+        const returnDate = expectedReturnDateInput.value;
+        if (returnDate && returnDate < rentDate) {
+            expectedReturnDateInput.value = ''; // Eğer ReturnDate geçersizse temizle
+        }
+    });
+
+    // ExpectedReturnDate seçildiğinde kontrol yap
+    expectedReturnDateInput.addEventListener('change', function () {
+        const rentDate = new Date(rentDateInput.value);
+        const returnDate = new Date(this.value);
+
+        if (returnDate < rentDate) {
+            alert('Expected Return Date cannot be earlier than Rent Date.');
+            this.value = ''; // Hatalı tarihi temizle
+        }
+    });
+
+    // Elle tarih girilirse kontrol yap
+    expectedReturnDateInput.addEventListener('blur', function () {
+        const rentDate = new Date(rentDateInput.value);
+        const returnDate = new Date(this.value);
+
+        if (returnDate < rentDate) {
+            alert('You cannot manually set a return date earlier than the rent date.');
+            this.value = ''; // Hatalı tarihi temizle
+        }
+    });
+</script>

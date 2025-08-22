@@ -1,0 +1,78 @@
+﻿@using EntityLayer.Concrete
+@model List<Dvd>
+@{
+    ViewData["Title"] = "DVD List";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3 class="text-2xl font-bold mb-4 text-center">DVD List</h3>
+<!-- Arama formu -->
+<div class="mb-6">
+    <form method="get" action="@Url.Action("Index", "Dvd")" class="flex gap-2">
+        <input type="text"
+               name="searchTerm"
+               placeholder="Search DVDs by title, description, country..."
+               value="@ViewBag.SearchTerm"
+               class="flex-grow border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button type="submit"
+                class="bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600 transition-colors">
+            Search
+        </button>
+        @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+        {
+            <a href="@Url.Action("Index", "Dvd")"
+               class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                Clear
+            </a>
+        }
+    </form>
+</div>
+<div class="max-w-full overflow-x-auto mb-8">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="px-6 py-4">#</th>
+                <th class="px-6 py-4">Title</th>
+                <th class="px-6 py-4">Description</th>
+                <th class="px-6 py-4">Release Year</th>
+                <th class="px-6 py-4">Country</th>
+                <th class="px-6 py-4">Stock</th>
+                <th class="px-6 py-4">Rental Count</th>
+                <th class="px-6 py-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dvd in Model)
+            {
+                <tr class="border-b hover:bg-gray-100 @(dvd.Stock == 0 ? "bg-red-500 text-white" : "")">
+                    <td class="px-6 py-4">@dvd.DvdId</td>
+                    <td class="px-6 py-4">@dvd.Title</td>
+                    <td class="px-6 py-4">@dvd.Description</td>
+                    <td class="px-6 py-4">@dvd.ReleaseYear</td>
+                    <td class="px-6 py-4">@dvd.Country</td>
+                    <td class="px-6 py-4">@dvd.Stock</td>
+                    <td class="px-6 py-4">@dvd.RentalCount</td>
+                    <td class="px-6 py-4 flex space-x-4 justify-center">
+                        <a href="/Dvd/EditDvd/@dvd.DvdId" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                            Edit
+                        </a>
+                        <a href="/Dvd/DeleteDvd/@dvd.DvdId" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (!Model.Any())
+{
+    <div class="text-center text-gray-600 mt-8">
+        <p>No DVDs found matching your search criteria.</p>
+    </div>
+}
+<div class="flex justify-between items-center mt-6">
+    <a href="/Dvd/AddDvd" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded">
+        Add DVD
+    </a>
+</div>

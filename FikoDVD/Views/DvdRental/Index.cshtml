@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Dvd Rentals";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<h3 class="text-2xl font-bold mb-4 text-center">Dvd Rentals List</h3>
+<div class="max-w-full overflow-x-auto mb-8">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="px-6 py-4">#</th>
+                <th class="px-6 py-4">DVD ID</th>
+                <th class="px-6 py-4">Client ID</th>
+                <th class="px-6 py-4">Rent Date</th>
+                <th class="px-6 py-4">Expected Return</th>
+                <th class="px-6 py-4">Return Date</th>
+                <th class="px-6 py-4">Rental Fee</th>
+                <th class="px-6 py-4">Late Fee</th>
+                <th class="px-6 py-4">Total Fee</th>
+                <th class="px-6 py-4">Status</th>
+
+                <th class="px-6 py-4">Actions</th>
+            </tr>
+      
+        </thead>
+        <tbody>
+            @foreach (var rental in Model)
+            {
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="px-6 py-4">@rental.RentalId</td>
+                    <td class="px-6 py-4">@rental.DvdId</td>
+                    <td class="px-6 py-4">@rental.ClientId</td>
+                    <td class="px-6 py-4">@rental.RentDate.ToString("yyyy-MM-dd")</td>
+                    <td class="px-6 py-4">@rental.ExpectedReturnDate.ToString("yyyy-MM-dd")</td>
+                    <td class="px-6 py-4">
+                        @if (rental.ReturnDate != null)
+                        {
+                            @rental.ReturnDate?.ToString("yyyy-MM-dd")
+                        }
+                        else
+                        {
+                            <span class="text-gray-500 italic">Not Returned</span>
+                        }
+                    </td>
+                    <td class="px-6 py-4">@rental.RentalFee.ToString("C")</td>
+                    <td class="px-6 py-4">@rental.LateFee.ToString("C")</td>
+                    <td class="px-6 py-4">@rental.TotalFee.ToString("C")</td>
+                    <td class="px-6 py-4">
+                        @if (rental.RentalStatus)
+                        {
+                            <span class="text-green-500 font-bold">Active</span>
+                        }
+                        else
+                        {
+                            <span class="text-red-500 font-bold">Completed</span>
+                        }
+                    </td>
+                    <td class="px-6 py-4 flex space-x-4">
+                        <a href="/DvdRental/EditDvdRental/@rental.RentalId" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                            Edit
+                        </a>
+                        <a href="/DvdRental/DeleteDvdRental/@rental.RentalId" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                            Delete
+                        </a>
+                        <a href="/DvdRental/ConfirmRental/@rental.RentalId" class="bg-green-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
+                            Confirm
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

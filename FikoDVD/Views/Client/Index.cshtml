@@ -1,0 +1,70 @@
+﻿@using EntityLayer.Concrete
+@model List<Client>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3 class="text-2xl font-bold mb-4 text-center">Client List</h3>
+<div class="mb-6">
+    <form method="get" action="@Url.Action("Index", "Client")" class="flex gap-2">
+        <input type="text"
+               name="searchTerm"
+               placeholder="Search Clients by Name, Surname, Tel no..."
+               value="@ViewBag.SearchTerm"
+               class="flex-grow border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button type="submit"
+                class="bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600 transition-colors">
+            Search
+        </button>
+        @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+        {
+            <a href="@Url.Action("Index", "Client")"
+               class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                Clear
+            </a>
+        }
+    </form>
+</div>
+<div class="max-w-full overflow-x-auto mb-8">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="px-6 py-4">#</th>
+                <th class="px-6 py-4">Name</th>
+                <th class="px-6 py-4">Surname</th>
+                <th class="px-6 py-4">Tel No</th>
+                <th class="px-6 py-4">TC No</th>
+                <th class="px-6 py-4">Rental Count</th>
+                <th class="px-6 py-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model)
+            {
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="px-6 py-4">@client.ClientId</td>
+                    <td class="px-6 py-4">@client.Name</td>
+                    <td class="px-6 py-4">@client.Surname</td>
+                    <td class="px-6 py-4">@client.TelNo</td>
+                    <td class="px-6 py-4">@client.TcNo</td>
+                    <td class="px-6 py-4">@client.RentalCount</td>
+                    <td class="px-6 py-4 flex space-x-4 justify-center">
+                        <a href="/Client/EditClient/@client.ClientId" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                            Edit
+                        </a>
+                        <a href="/Client/DeleteClient/@client.ClientId" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="flex justify-between items-center mt-6">
+    <a href="/Client/AddClient" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded">
+        Add Client
+    </a>
+</div>
+

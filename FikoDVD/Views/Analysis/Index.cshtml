@@ -1,0 +1,66 @@
+﻿@using System.Linq
+@model List<FikoDVD.Models.DvdListViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<section id="dvd-list" class="py-12 bg-gray-100">
+    <div class="container mx-auto px-6">
+        <h1 class="text-4xl font-bold mb-10 text-center text-gray-800">DVD List</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg">
+                <thead>
+                    <tr class="bg-indigo-500 text-white">
+                        <th class="px-6 py-4 text-left">#</th>
+                        <th class="px-6 py-4 text-left">DVD Title</th>
+                        <th class="px-6 py-4 text-left">Available</th>
+                        <th class="px-6 py-4 text-left">Current Renters</th>
+                        <th class="px-6 py-4 text-left">Rental Count</th> <!-- Yeni sütun başlığı -->
+                        <th class="px-6 py-4 text-left">Total Rentals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dvd in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 border-b">@dvd.DvdId</td>
+                            <td class="px-6 py-4 border-b">@dvd.Title</td>
+                            <td class="px-6 py-4 border-b">@dvd.TotalRentals</td>
+                            <td class="px-6 py-4 border-b">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full
+                                    @(dvd.AvailableCopies > 0 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800")">
+                                    @dvd.AvailableCopies / @dvd.TotalCopies
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 border-b">
+                                @if (dvd.CurrentRenters.Any())
+                                {
+                                    <div class="space-y-2">
+                                        @foreach (var renter in dvd.CurrentRenters)
+                                        {
+                                            <div class="text-sm border-l-4 border-indigo-500 pl-2 mb-2">
+                                                <div class="font-medium text-gray-800">@renter.Name</div>
+                                                <div class="text-gray-600 text-xs">
+                                                    Rented: @renter.RentDate.ToString("dd/MM/yyyy")
+                                                </div>
+                                                <div class="text-gray-600 text-xs">
+                                                    Return: @renter.ExpectedReturnDate.ToString("dd/MM/yyyy")
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-gray-500">No current renters</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 border-b">@dvd.RentalCount</td> <!-- Yeni sütun -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

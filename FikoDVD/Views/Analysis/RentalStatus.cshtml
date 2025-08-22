@@ -1,0 +1,102 @@
+﻿@model FikoDVD.Models.RentalStatusViewModel
+
+@{
+    ViewData["Title"] = "Rental Status";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<section id="rental-status" class="py-12 bg-gray-100">
+    <div class="container mx-auto px-6">
+        <h1 class="text-4xl font-bold mb-10 text-center text-gray-800">Rental Status</h1>
+
+        <!-- Overdue Rentals Section -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-red-600">Overdue Rentals</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg">
+                    <thead>
+                        <tr class="bg-red-500 text-white">
+                            <th class="px-6 py-4 text-left">Rental ID</th>
+                            <th class="px-6 py-4 text-left">DVD Title</th>
+                            <th class="px-6 py-4 text-left">Client Name</th>
+                            <th class="px-6 py-4 text-left">Contact</th>
+                            <th class="px-6 py-4 text-left">Rent Date</th>
+                            <th class="px-6 py-4 text-left">Expected Return</th>
+                            <th class="px-6 py-4 text-left">Days Overdue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rental in Model.OverdueRentals)
+                        {
+                            <tr class="hover:bg-red-50">
+                                <td class="px-6 py-4 border-b">@rental.RentalId</td>
+                                <td class="px-6 py-4 border-b">@rental.DvdTitle</td>
+                                <td class="px-6 py-4 border-b">@rental.ClientName</td>
+                                <td class="px-6 py-4 border-b">@rental.ClientPhone</td>
+                                <td class="px-6 py-4 border-b">@rental.RentDate.ToString("dd/MM/yyyy")</td>
+                                <td class="px-6 py-4 border-b">@rental.ExpectedReturnDate.ToString("dd/MM/yyyy")</td>
+                                <td class="px-6 py-4 border-b">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                        @rental.DaysOverdueOrRemaining days
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+
+                        @if (!Model.OverdueRentals.Any())
+                        {
+                            <tr>
+                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">No overdue rentals</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Upcoming Returns Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-6 text-yellow-600">Upcoming Returns (Next 2 Days)</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg">
+                    <thead>
+                        <tr class="bg-yellow-500 text-white">
+                            <th class="px-6 py-4 text-left">Rental ID</th>
+                            <th class="px-6 py-4 text-left">DVD Title</th>
+                            <th class="px-6 py-4 text-left">Client Name</th>
+                            <th class="px-6 py-4 text-left">Contact</th>
+                            <th class="px-6 py-4 text-left">Rent Date</th>
+                            <th class="px-6 py-4 text-left">Expected Return</th>
+                            <th class="px-6 py-4 text-left">Days Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rental in Model.UpcomingReturns)
+                        {
+                            <tr class="hover:bg-yellow-50">
+                                <td class="px-6 py-4 border-b">@rental.RentalId</td>
+                                <td class="px-6 py-4 border-b">@rental.DvdTitle</td>
+                                <td class="px-6 py-4 border-b">@rental.ClientName</td>
+                                <td class="px-6 py-4 border-b">@rental.ClientPhone</td>
+                                <td class="px-6 py-4 border-b">@rental.RentDate.ToString("dd/MM/yyyy")</td>
+                                <td class="px-6 py-4 border-b">@rental.ExpectedReturnDate.ToString("dd/MM/yyyy")</td>
+                                <td class="px-6 py-4 border-b">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        @rental.DaysOverdueOrRemaining days
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+
+                        @if (!Model.UpcomingReturns.Any())
+                        {
+                            <tr>
+                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">No upcoming returns in the next 2 days</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

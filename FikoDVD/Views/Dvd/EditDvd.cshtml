@@ -1,0 +1,57 @@
+﻿@model EntityLayer.Concrete.Dvd
+
+@{
+    ViewData["Title"] = "Edit Dvd";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit Dvd</h1>
+
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    @using (Html.BeginForm("EditDvd", "Dvd", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.DvdId) <!-- ID'yi gizli bir input olarak gönderiyoruz -->
+        <!-- Title -->
+        <div class="mb-4">
+            <label for="Title" class="block text-gray-700 font-bold mb-2">DVD Title</label>
+            @Html.TextBoxFor(x => x.Title, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+            <label for="Description" class="block text-gray-700 font-bold mb-2">Description</label>
+            @Html.TextBoxFor(x => x.Description, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- Release Year -->
+        <div class="mb-4">
+            <label for="ReleaseYear" class="block text-gray-700 font-bold mb-2">Release Year</label>
+            @Html.TextBoxFor(x => x.ReleaseYear, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "number" })
+        </div>
+
+        <!-- Country -->
+        <div class="mb-4">
+            <label for="Country" class="block text-gray-700 font-bold mb-2">Country</label>
+            @Html.TextBoxFor(x => x.Country, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-4">
+            <label for="Stock" class="block text-gray-700 font-bold mb-2">Stock</label>
+            @Html.TextBoxFor(x => x.Stock, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "number" })
+        </div>
+
+        <!-- Rental Count -->
+        <div class="mb-4">
+            <label for="RentalCount" class="block text-gray-700 font-bold mb-2">Rental Count</label>
+            @Html.TextBoxFor(x => x.RentalCount, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "number" })
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Save Changes
+            </button>
+        </div>
+    }
+</div>

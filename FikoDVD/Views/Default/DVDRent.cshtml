@@ -1,0 +1,78 @@
+﻿@using EntityLayer.Concrete
+@model List<Dvd>
+
+@{
+    ViewData["Title"] = "DVDRent";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Available DVDs for Rent</h1>
+
+    <!-- Search Bar -->
+    <form method="get" action="/Default/DVDRent" class="mb-6">
+        <div class="flex items-center">
+            <input type="text"
+                   name="searchTerm"
+                   placeholder="Search DVDs by title, description, country..."
+                   value="@ViewBag.SearchTerm"
+                   class="flex-grow border rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                   autofocus />
+            <button type="submit"
+                    class="bg-indigo-500 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-600 transition-colors">
+                Search
+            </button>
+            @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+            {
+                <a href="/Default/DVDRent"
+                   class="ml-2 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                    Clear
+                </a>
+            }
+        </div>
+    </form>
+
+    <!-- DVD Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @foreach (var dvd in Model)
+        {
+            <div class="rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 @(dvd.Stock == 0 ? "bg-red-500" : "bg-white") shadow-lg">
+                <!-- DVD Image -->
+                <img class="w-full h-48 object-contain" src="@dvd.Image" alt="@dvd.Title">
+
+
+                <!-- DVD Details -->
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">@dvd.Title</h3>
+                    <p class="text-sm text-gray-600 mb-2">Release Year: @dvd.ReleaseYear</p>
+                    <p class="text-sm text-gray-600 mb-2">Country: @dvd.Country</p>
+                    <p class="text-sm @(dvd.Stock == 0 ? "text-white" : "text-gray-600") mb-2">Available Stock: @dvd.Stock</p>
+                    <p class="text-sm text-gray-600 mb-4">@dvd.Description</p>
+
+                    <!-- Rent Button -->
+                    @if (dvd.Stock > 0)
+                    {
+                        <a href="/DvdRental/AddDvdRental?dvdId=@dvd.DvdId"
+                           class="block bg-indigo-500 text-white text-center font-bold py-2 px-4 rounded hover:bg-indigo-600 transition-colors">
+                            Rent
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="block bg-gray-500 text-white text-center font-bold py-2 px-4 rounded cursor-not-allowed">
+                            Out of Stock
+                        </span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Eğer DVD verisi yoksa kullanıcıya mesaj göster -->
+    @if (!Model.Any())
+    {
+        <div class="text-center text-gray-600 mt-8">
+            <p>No DVDs available for rent at the moment. Please check back later!</p>
+        </div>
+    }
+</div>

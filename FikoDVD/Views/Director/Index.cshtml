@@ -1,0 +1,41 @@
+﻿@using EntityLayer.Concrete
+@model List<Director>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3 class="text-2xl font-bold mb-4 text-center">Director List</h3>
+<div class="max-w-full overflow-x-auto mb-8">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="px-6 py-4">#</th>
+                <th class="px-6 py-4">Name</th>
+                <th class="px-6 py-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var director in Model)
+            {
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="px-6 py-4">@director.DirectorId</td>
+                    <td class="px-6 py-4">@director.Name</td>
+                    <td class="px-6 py-4 flex space-x-4 justify-center">
+                        <a href="/Director/EditDirector/@director.DirectorId" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                            Edit
+                        </a>
+                        <a href="/Director/DeleteDirector/@director.DirectorId" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="flex justify-between items-center mt-6">
+    <a href="/Director/AddDirector" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded">
+        Add Director
+    </a>
+</div>

@@ -1,0 +1,60 @@
+﻿@model FikoDVD.Models.RentalAnalysisViewModel
+@{
+    ViewData["Title"] = "Rental Analysis";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">DVD Rental Analysis</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- En Çok Kiralanan Filmler -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4 text-indigo-600">Most Rented DVDs</h2>
+            <div class="space-y-4">
+                @foreach (var dvd in Model.MostRentedDvds)
+                {
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="text-gray-800">@dvd.Title</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">
+                            @dvd.RentalCount rentals
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- En Az Kiralanan Filmler -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4 text-indigo-600">Least Rented DVDs</h2>
+            <div class="space-y-4">
+                @foreach (var dvd in Model.LeastRentedDvds)
+                {
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="text-gray-800">@dvd.Title</span>
+                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">
+                            @dvd.RentalCount rentals
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Günlük Kiralama Sayıları -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">Daily Rental Statistics (Last 7 Days)</h2>
+        <div class="space-y-4">
+            @foreach (var daily in Model.DailyRentals)
+            {
+                <div class="flex justify-between items-center border-b pb-2">
+                    <span class="text-gray-800">@daily.Date.ToString("dd/MM/yyyy")</span>
+                    <div class="flex items-center">
+                        <div class="bg-indigo-100 h-4 rounded" style="width: @(daily.Count * 20)px"></div>
+                        <span class="ml-2 text-indigo-600 font-semibold">@daily.Count rentals</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

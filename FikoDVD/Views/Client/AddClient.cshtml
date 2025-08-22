@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "AddClient";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Add New Client</h1>
+
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    <form method="post">
+
+        <!-- Name -->
+        <div class="mb-4">
+            <label for="Name" class="block text-gray-700 font-bold mb-2">Name</label>
+            <input type="text" name="Name" id="Name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <!-- Surname -->
+        <div class="mb-4">
+            <label for="Surname" class="block text-gray-700 font-bold mb-2">Surname</label>
+            <input type="text" name="Surname" id="Surname" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <!-- Tel No -->
+        <div class="mb-4">
+            <label for="TelNo" class="block text-gray-700 font-bold mb-2">Phone Number</label>
+            <input type="text" name="TelNo" id="TelNo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <!-- TC No -->
+        <div class="mb-4">
+            <label for="TcNo" class="block text-gray-700 font-bold mb-2">TC No</label>
+            <input type="text" name="TcNo" id="TcNo" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <!-- Rental Count -->
+        <div class="mb-4">
+            <label for="RentalCount" class="block text-gray-700 font-bold mb-2">Rental Count</label>
+            <input type="text" name="RentalCount" id="RentalCount" value="0" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-200 text-gray-700 focus:outline-none" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Add Client
+            </button>
+        </div>
+
+    </form>
+</div>

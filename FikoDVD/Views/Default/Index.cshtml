@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD Rental</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Sayfa genelinde kenarlık ve padding kaldırıldı, her şey düzgün hizalandı */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Hero bölümünü tam ekran yapmak için düzenlemeler */
+        .hero-section {
+            background-image: url('@Url.Content("~/jpg/1.jpg")');
+            background-size: cover; /* Görselin boyutunu ekrana uyacak şekilde ayarla */
+            background-position: center center; /* Görselin ortalanmasını sağlar */
+            width: 100%;
+            height: 100vh; /* Görselin ekranı tamamen kaplaması için */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Hero içerik kısmı */
+        .hero-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7); /* Yarı saydam arka plan */
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            width: 400px;
+        }
+
+        /* Buton için stil ve hover efekti */
+        .cta-button {
+            background-color: #4c51bf;
+            padding: 12px 24px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .cta-button:hover {
+                background-color: #2b3e74;
+            }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="text-5xl font-bold mb-4">Welcome to DVD Rental</h1>
+            <p class="text-lg mb-6">Rent your favorite DVDs from our extensive collection.</p>
+            <a href="/Default/DVDRent" class="cta-button">Go to Rent!</a>
+        </div>
+    </div>
+</body>
+</html>

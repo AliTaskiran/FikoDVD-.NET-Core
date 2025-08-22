@@ -1,0 +1,154 @@
+﻿@model EntityLayer.Concrete.DvdRental
+@{
+    ViewData["Title"] = "Edit DVD Rental";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit DVD Rental</h1>
+
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    @using (Html.BeginForm("EditDvdRental", "DvdRental", FormMethod.Post))
+
+    {
+        <!-- Hidden Input: RentalId -->
+        @Html.HiddenFor(x => x.RentalId) <!-- Rental ID gizli olarak gönderiliyor -->
+        <!-- DVD ID -->
+        <div class="mb-4">
+            <label for="DvdId" class="block text-gray-700 font-bold mb-2">DVD ID</label>
+            @Html.TextBoxFor(x => x.DvdId, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", @readonly = "readonly" })
+        </div>
+
+        <!-- Client ID -->
+        <div class="mb-4">
+            <label for="ClientId" class="block text-gray-700 font-bold mb-2">Client ID</label>
+            @Html.TextBoxFor(x => x.ClientId, new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", @readonly = "readonly" })
+        </div>
+
+        <!-- Rent Date -->
+        <div class="mb-4">
+            <label for="RentDate" class="block text-gray-700 font-bold mb-2">Rent Date</label>
+            @Html.TextBoxFor(x => x.RentDate, "{0:yyyy-MM-dd}", new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "date", @readonly = "readonly" })
+        </div>
+
+        <!-- Expected Return Date -->
+        <div class="mb-4">
+            <label for="ExpectedReturnDate" class="block text-gray-700 font-bold mb-2">Expected Return Date</label>
+            @Html.TextBoxFor(x => x.ExpectedReturnDate, "{0:yyyy-MM-dd}", new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "date" })
+        </div>
+
+        <!-- Return Date -->
+        <div class="mb-4">
+            <label for="ReturnDate" class="block text-gray-700 font-bold mb-2">Return Date</label>
+            @Html.TextBoxFor(x => x.ReturnDate, "{0:yyyy-MM-dd}", new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500", type = "date" })
+        </div>
+
+        <!-- Rental Fee -->
+        <div class="mb-4">
+            <label for="RentalFee" class="block text-gray-700 font-bold mb-2">Rental Fee</label>
+            <input id="RentalFee" type="text" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly />
+        </div>
+
+
+
+        <!-- Rental Status -->
+        <div class="mb-4">
+            <label for="RentalStatus" class="block text-gray-700 font-bold mb-2">Rental Status</label>
+            @Html.DropDownListFor(x => x.RentalStatus,
+                     new SelectList(
+                     new List<object>
+        {
+        new { Value = true, Text = "Active" },
+        new { Value = false, Text = "Completed" }
+        },
+                     "Value",
+                     "Text",
+                     Model.RentalStatus
+                     ),
+                     new { @class = "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" })
+
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Save Changes
+            </button>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const rentDateInput = document.getElementById('RentDate');
+                const expectedReturnDateInput = document.getElementById('ExpectedReturnDate');
+                const rentalFeeInput = document.getElementById('RentalFee');
+
+                // RentalFee'yi hesaplayan fonksiyon
+                function calculateRentalFee() {
+                    if (!rentDateInput.value || !expectedReturnDateInput.value) {
+                        rentalFeeInput.value = '0.00'; // Tarihler boşsa sıfır göster
+                        return;
+                    }
+
+                    const rentDate = new Date(rentDateInput.value);
+                    const expectedReturnDate = new Date(expectedReturnDateInput.value);
+
+                    if (expectedReturnDate > rentDate) {
+                        const days = Math.ceil((expectedReturnDate - rentDate) / (1000 * 60 * 60 * 24)); // Gün farkını hesapla
+                        const fee = days * 25; // Günlük ücretle çarp
+                        rentalFeeInput.value = fee.toFixed(2); // Ücreti göster
+                    } else {
+                        rentalFeeInput.value = '0.00'; // Geçersiz tarih durumunda sıfır göster
+                    }
+                }
+
+                // Tarih alanlarına değişiklik dinleyicisi ekleyin
+                rentDateInput.addEventListener('change', calculateRentalFee);
+                expectedReturnDateInput.addEventListener('change', calculateRentalFee);
+            });
+            document.addEventListener('DOMContentLoaded', function () {
+                const rentDateInput = document.getElementById('RentDate');
+                const expectedReturnDateInput = document.getElementById('ExpectedReturnDate');
+                const returnDateInput = document.getElementById('ReturnDate');
+                const rentalFeeInput = document.getElementById('RentalFee');
+                const lateFeeInput = document.getElementById('LateFee');
+
+                function calculateFees() {
+                    if (!rentDateInput.value || !expectedReturnDateInput.value) {
+                        rentalFeeInput.value = '0.00';
+                        lateFeeInput.value = '0.00';
+                        return;
+                    }
+
+                    const rentDate = new Date(rentDateInput.value);
+                    const expectedReturnDate = new Date(expectedReturnDateInput.value);
+                    const returnDate = returnDateInput.value ? new Date(returnDateInput.value) : null;
+
+                    // Rental Fee hesaplama
+                    const feeCalculationDate = returnDate || expectedReturnDate;
+                    if (feeCalculationDate > rentDate) {
+                        const rentalDays = Math.ceil((feeCalculationDate - rentDate) / (1000 * 60 * 60 * 24));
+                        const rentalFee = rentalDays * 25;
+                        rentalFeeInput.value = rentalFee.toFixed(2);
+                    } else {
+                        rentalFeeInput.value = '0.00';
+                    }
+
+                    // Late Fee hesaplama
+                    if (returnDate && returnDate > expectedReturnDate) {
+                        const lateDays = Math.ceil((returnDate - expectedReturnDate) / (1000 * 60 * 60 * 24));
+                        const lateFee = lateDays * 5; // Gecikme ücreti: günlük 5 birim
+                        lateFeeInput.value = lateFee.toFixed(2);
+                    } else {
+                        lateFeeInput.value = '0.00';
+                    }
+                }
+
+                rentDateInput.addEventListener('change', calculateFees);
+                expectedReturnDateInput.addEventListener('change', calculateFees);
+                returnDateInput.addEventListener('change', calculateFees);
+            });
+
+        </script>
+
+
+    }
+</div>
